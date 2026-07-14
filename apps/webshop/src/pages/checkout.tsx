@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useCartContext } from '../hooks/useCartContext';
+import { FrequentlyBoughtTogether } from '../components/FrequentlyBoughtTogether/FrequentlyBoughtTogether';
 import { calculateOrderSummary } from '../utils/calculateOrderSummary';
 import { formatPrice } from '../utils/formatPrice';
 import styles from './checkout.module.css';
@@ -96,6 +97,12 @@ export default function CheckoutPage() {
           </>
         )}
       </div>
+
+      {items.length > 0 && (
+        <FrequentlyBoughtTogether
+          excludeProductIds={items.map(item => item.productId)}
+        />
+      )}
     </div>
   );
 }

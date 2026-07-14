@@ -7,6 +7,7 @@ import { fetchGraphQL } from '../../utils/fetchGraphQL';
 import { formatPrice } from '../../utils/formatPrice';
 import { getImageSrc } from '../../utils/getImageSrc';
 import { useCartContext } from '../../hooks/useCartContext';
+import { FrequentlyBoughtTogether } from '../../components/FrequentlyBoughtTogether/FrequentlyBoughtTogether';
 import styles from './[id].module.css';
 
 export default function ProductPage() {
@@ -104,6 +105,11 @@ export default function ProductPage() {
           </button>
         </div>
       </div>
+
+      <FrequentlyBoughtTogether
+        excludeProductIds={[product.id]}
+        categorySeeds={[product.category]}
+      />
     </div>
   );
 }
