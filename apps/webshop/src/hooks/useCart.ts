@@ -1,36 +1,32 @@
 import { useEffect, useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import { CartItem, UseCartReturn } from '../types';
 
 export function useCart(): UseCartReturn {
-  const [cart, setCart] = useState<CartItem[]>([]);
+  const [items, setItems] = useState<CartItem[]>([]);
   const [isReady, setIsReady] = useState(false);
   const [totalPrice, setTotalPrice] = useState<number>(0);
 
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem('cart') || '[]') as CartItem[];
-    setCart(stored);
+    setItems(stored);
     setIsReady(true);
   }, []);
 
   useEffect(() => {
-    const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
     setTotalPrice(total);
-  }, [cart]);
+  }, [items]);
 
   useEffect(() => {
     if (!isReady) return;
 
     if (typeof window !== 'undefined') {
-      localStorage.setItem('cart', JSON.stringify(cart));
+      localStorage.setItem('cart', JSON.stringify(items));
     }
-  }, [cart, isReady]);
+  }, [items, isReady]);
 
   const addToCart = (item: CartItem) => {
-    const id = uuidv4();
-    console.log('adding to cart, entry id:', id);
-
-    setCart(prev => {
+    setItems(prev => {
       const existing = prev.find(i => i.productId === item.productId);
       if (existing) {
         return prev.map(i =>
@@ -42,14 +38,14 @@ export function useCart(): UseCartReturn {
   };
 
   const removeFromCart = (productId: string) => {
-    setCart(prev => prev.filter(i => i.productId !== productId));
+    setItems(prev => prev.filter(i => i.productId !== productId));
   };
 
   const clearCart = () => {
-    setCart([]);
+    setItems([]);
   };
 
-  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
 
-  return { cart, addToCart, removeFromCart, clearCart, totalItems, totalPrice, isReady };
+  return { items, addToCart, removeFromCart, clearCart, totalItems, totalPrice, isReady };
 }

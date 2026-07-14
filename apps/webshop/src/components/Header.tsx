@@ -1,9 +1,9 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { CartContext } from '../contexts/CartContext';
 import { ProductSearchHit, SearchProductsResult } from '../types';
 import { fetchGraphQL } from '../utils/fetchGraphQL';
+import { useCartContext } from '../hooks/useCartContext';
 import { SearchDialog } from './SearchDialog';
 import { CartIcon } from './cartIcon';
 import { useDebounce } from '../hooks/useDebounce';
@@ -27,7 +27,7 @@ const SEARCH_LISTBOX_ID = 'header-search-listbox';
 
 export function Header() {
   const router = useRouter();
-  const { cart } = useContext(CartContext)!;
+  const cart = useCartContext();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<ProductSearchHit[]>([]);
   const [isOpen, setIsOpen] = useState(false);

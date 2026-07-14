@@ -1,26 +1,14 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
-import { CartContext } from '../contexts/CartContext';
+import { useCartContext } from '../hooks/useCartContext';
 import { calculateOrderSummary } from '../utils/calculateOrderSummary';
 import styles from './checkout.module.css';
 
 export default function CheckoutPage() {
-  const { cart } = useContext(CartContext)!;
+  const cart = useCartContext();
   const [confirmed, setConfirmed] = useState(false);
 
   const handlePlaceOrder = () => {
-    const items = cart.cart || [];
-    const summary = calculateOrderSummary(items);
-
-    console.log(
-      'order total:',
-      summary.subtotal,
-      '| VAT:',
-      summary.tax.toFixed(2),
-      '| shipping:',
-      summary.shipping
-    );
-
     cart.clearCart();
     setConfirmed(true);
   };
@@ -35,7 +23,7 @@ export default function CheckoutPage() {
     );
   }
 
-  const items = cart.cart || [];
+  const items = cart.items;
   const summary = calculateOrderSummary(items);
 
   return (

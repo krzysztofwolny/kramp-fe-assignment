@@ -10,7 +10,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
   const cart = useCart();
 
   return (
-    <CartContext.Provider value={{ cart }}>
+    <CartContext.Provider value={cart}>
       <Head>
         <title>Kramp Webshop</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />

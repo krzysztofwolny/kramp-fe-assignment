@@ -25,7 +25,7 @@ export type ProductSearchHit = Pick<
 export type ProductCategory = 'Tools' | 'Fasteners' | 'Safety Equipment' | 'Power Tools';
 
 export interface UseCartReturn {
-  cart: CartItem[];
+  items: CartItem[];
   addToCart: (item: CartItem) => void;
   removeFromCart: (productId: string) => void;
   clearCart: () => void;
@@ -34,9 +34,7 @@ export interface UseCartReturn {
   isReady: boolean;
 }
 
-export interface CartContextValue {
-  cart: UseCartReturn;
-}
+export type CartContextValue = UseCartReturn;
 
 export interface SearchProductsResult {
   searchProducts: Product[];

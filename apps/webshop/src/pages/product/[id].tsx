@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useState } from 'react';
-import { CartContext } from '../../contexts/CartContext';
+import { useEffect, useState } from 'react';
 import { GetProductResult, Product } from '../../types';
 import { fetchGraphQL } from '../../utils/fetchGraphQL';
+import { useCartContext } from '../../hooks/useCartContext';
 import styles from './[id].module.css';
 
 const GET_PRODUCT_QUERY = `
@@ -22,7 +22,7 @@ const GET_PRODUCT_QUERY = `
 
 export default function ProductPage() {
   const router = useRouter();
-  const { cart } = useContext(CartContext)!;
+  const cart = useCartContext();
   const [product, setProduct] = useState<Product | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -47,18 +47,6 @@ export default function ProductPage() {
 
   const handleAddToCart = () => {
     if (!product) return;
-
-    const currentItems = [...(cart.cart || []), {
-      productId: product.id,
-      name: product.name,
-      price: product.price,
-      quantity: 1,
-    }];
-    let runningTotal = 0;
-    for (let i = 0; i < currentItems.length; i++) {
-      runningTotal += currentItems[i].price * currentItems[i].quantity;
-    }
-    console.log('cart total after add:', runningTotal);
 
     cart.addToCart({
       productId: product.id,
