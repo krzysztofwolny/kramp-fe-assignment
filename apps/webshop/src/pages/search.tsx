@@ -12,6 +12,8 @@ export default function SearchPage() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    if (!router.isReady) return;
+
     const q = (router.query.q as string) || '';
 
     setIsLoading(true);
@@ -42,8 +44,11 @@ export default function SearchPage() {
         console.log('search results:', data);
         setResults(data.data.searchProducts);
         setIsLoading(false);
+      })
+      .catch(() => {
+        setIsLoading(false);
       });
-  }, []);
+  }, [router.isReady, router.query.q]);
 
   useEffect(() => {
     setFilteredResults(results);
