@@ -30,12 +30,18 @@
 }
 
 .category {
+  display: inline-block;
   font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   color: #999;
   margin: 0;
+  text-decoration: none;
+}
+
+.category:hover {
+  color: #e63329;
 }
 
 .name {

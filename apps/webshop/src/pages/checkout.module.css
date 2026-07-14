@@ -29,8 +29,8 @@
 
 .item {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 12px;
   padding: 14px 16px;
   border-bottom: 1px solid #f0f0f0;
 }
@@ -39,8 +39,21 @@
   border-bottom: none;
 }
 
+.itemImageLink {
+  flex-shrink: 0;
+  line-height: 0;
+}
+
+.itemImage {
+  display: block;
+  border-radius: 4px;
+  object-fit: cover;
+  border: 1px solid #e0e0e0;
+}
+
 .itemName {
   flex: 1;
+  min-width: 0;
   font-size: 15px;
   color: #1a1a1a;
   text-decoration: none;
@@ -54,7 +67,8 @@
 .itemQty {
   font-size: 14px;
   color: #666;
-  margin: 0 16px;
+  margin: 0 8px 0 0;
+  flex-shrink: 0;
 }
 
 .itemPrice {
@@ -63,6 +77,7 @@
   color: #1a1a1a;
   min-width: 72px;
   text-align: right;
+  flex-shrink: 0;
 }
 
 .removeButton {

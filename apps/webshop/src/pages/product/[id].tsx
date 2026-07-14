@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { GET_PRODUCT_QUERY } from '../../graphql/queries';
@@ -83,6 +84,7 @@ export default function ProductPage() {
       price: product.price,
       quantity: 1,
       stock: product.stock,
+      imageUrl: product.imageUrl,
     });
   };
 
@@ -100,7 +102,12 @@ export default function ProductPage() {
           />
         </div>
         <div className={styles.details}>
-          <p className={styles.category}>{product.category}</p>
+          <Link
+            href={`/search?q=${encodeURIComponent(product.category)}`}
+            className={styles.category}
+          >
+            {product.category}
+          </Link>
           <h1 className={styles.name}>{product.name}</h1>
           <p className={styles.price}>{formatPrice(product.price)}</p>
           <p className={styles.description}>{product.description}</p>

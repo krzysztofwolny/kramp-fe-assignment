@@ -1,10 +1,15 @@
 import { useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useCartContext } from '../hooks/useCartContext';
 import { FrequentlyBoughtTogether } from '../components/FrequentlyBoughtTogether/FrequentlyBoughtTogether';
 import { calculateOrderSummary } from '../utils/calculateOrderSummary';
 import { formatPrice } from '../utils/formatPrice';
+import { getImageSrc } from '../utils/getImageSrc';
 import styles from './checkout.module.css';
+
+const CART_PLACEHOLDER_IMAGE =
+  'https://placehold.co/80x60/e0e0e0/666666?text=Product';
 
 export default function CheckoutPage() {
   const cart = useCartContext();
@@ -43,6 +48,18 @@ export default function CheckoutPage() {
             <div className={styles.items}>
               {items.map(item => (
                 <div key={item.productId} className={styles.item}>
+                  <Link
+                    href={`/product/${item.productId}`}
+                    className={styles.itemImageLink}
+                  >
+                    <Image
+                      src={getImageSrc(item.imageUrl ?? CART_PLACEHOLDER_IMAGE)}
+                      alt={item.name}
+                      width={56}
+                      height={42}
+                      className={styles.itemImage}
+                    />
+                  </Link>
                   <Link
                     href={`/product/${item.productId}`}
                     className={styles.itemName}

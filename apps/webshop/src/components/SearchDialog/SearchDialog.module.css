@@ -17,8 +17,8 @@
 
 .item {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 10px;
   width: 100%;
   padding: 10px 14px;
   cursor: pointer;
@@ -38,12 +38,22 @@
   border-bottom: none;
 }
 
+.itemImage {
+  flex-shrink: 0;
+  border-radius: 2px;
+  object-fit: cover;
+  border: 1px solid #e0e0e0;
+}
+
 .itemName {
+  flex: 1;
+  min-width: 0;
   font-size: 14px;
   color: #1a1a1a;
 }
 
 .itemPrice {
+  flex-shrink: 0;
   font-size: 13px;
   color: #e63329;
   font-weight: 600;

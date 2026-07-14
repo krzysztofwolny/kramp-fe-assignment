@@ -47,7 +47,12 @@ export function useCart(): UseCartReturn {
 
         return prev.map(i =>
           i.productId === item.productId
-            ? { ...i, quantity: cappedQuantity, stock: effectiveStock ?? i.stock }
+            ? {
+                ...i,
+                quantity: cappedQuantity,
+                stock: effectiveStock ?? i.stock,
+                imageUrl: item.imageUrl ?? i.imageUrl,
+              }
             : i
         );
       }

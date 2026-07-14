@@ -1,5 +1,7 @@
+import Image from 'next/image';
 import { ProductSearchHit } from '../../types';
 import { formatPrice } from '../../utils/formatPrice';
+import { getImageSrc } from '../../utils/getImageSrc';
 import styles from './SearchDialog.module.css';
 
 interface SearchDialogProps {
@@ -35,6 +37,13 @@ export function SearchDialog({
             className={`${styles.item} ${index === activeIndex ? styles.itemActive : ''}`}
             onClick={() => onSelect(result.id)}
           >
+            <Image
+              src={getImageSrc(result.imageUrl)}
+              alt=""
+              width={40}
+              height={30}
+              className={styles.itemImage}
+            />
             <span className={styles.itemName}>{result.name}</span>
             <span className={styles.itemPrice}>{formatPrice(result.price)}</span>
           </button>
