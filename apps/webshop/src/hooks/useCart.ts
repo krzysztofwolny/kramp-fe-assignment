@@ -2,14 +2,16 @@ import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { CartItem, UseCartReturn } from '../types';
 
-const stored: CartItem[] =
-  typeof window !== 'undefined'
-    ? JSON.parse(localStorage.getItem('cart') || '[]')
-    : [];
-
-export function useCart() {
-  const [cart, setCart] = useState<CartItem[]>(stored);
+export function useCart(): UseCartReturn {
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [isReady, setIsReady] = useState(false);
   const [totalPrice, setTotalPrice] = useState<number>(0);
+
+  useEffect(() => {
+    const stored = JSON.parse(localStorage.getItem('cart') || '[]') as CartItem[];
+    setCart(stored);
+    setIsReady(true);
+  }, []);
 
   useEffect(() => {
     const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -17,6 +19,8 @@ export function useCart() {
   }, [cart]);
 
   useEffect(() => {
+    if (!isReady) return;
+
     if (typeof window !== 'undefined') {
       localStorage.setItem('cart', JSON.stringify(cart));
     }
