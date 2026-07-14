@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { GetServerSideProps } from 'next';
 import { ProductsGrid } from '../components/ProductsGrid/ProductsGrid';
 import { GET_PRODUCT_QUERY } from '../graphql/queries';
@@ -67,13 +68,13 @@ export default function HomePage({ featured }: HomePageProps) {
         <h2>Shop by category</h2>
         <div className={styles.categoryGrid}>
           {CATEGORIES.map(cat => (
-            <a
+            <Link
               key={cat}
               href={`/search?q=${encodeURIComponent(cat)}`}
               className={styles.categoryCard}
             >
               {cat}
-            </a>
+            </Link>
           ))}
         </div>
       </section>
