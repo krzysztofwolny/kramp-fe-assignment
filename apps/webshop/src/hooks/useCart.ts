@@ -24,7 +24,7 @@ export function useCart(): UseCartReturn {
     if (typeof window !== 'undefined') {
       localStorage.setItem('cart', JSON.stringify(cart));
     }
-  });
+  }, [cart, isReady]);
 
   const addToCart = (item: CartItem) => {
     const id = uuidv4();
