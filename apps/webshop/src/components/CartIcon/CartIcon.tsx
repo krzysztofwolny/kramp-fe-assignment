@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import styles from './cartIcon.module.css';
+import styles from './CartIcon.module.css';
 
 interface CartIconProps {
   count: number;

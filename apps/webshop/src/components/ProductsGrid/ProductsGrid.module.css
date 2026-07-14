@@ -1,0 +1,44 @@
+.section {
+  max-width: 1200px;
+  margin: 48px auto;
+  padding: 0 24px;
+}
+
+.header {
+  margin-bottom: 24px;
+}
+
+.header h2 {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.embedded {
+  margin: 0 0 40px;
+  padding: 0;
+}
+
+.embedded .header {
+  margin-bottom: 16px;
+}
+
+.embedded .header h2 {
+  font-size: 18px;
+  font-weight: 600;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e63329;
+}
+
+@media (max-width: 640px) {
+  .section {
+    padding: 0 16px;
+    margin-top: 32px;
+    margin-bottom: 32px;
+  }
+}

@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Product } from '../types';
-import { formatPrice } from '../utils/formatPrice';
-import { getImageSrc } from '../utils/getImageSrc';
+import { Product } from '../../types';
+import { formatPrice } from '../../utils/formatPrice';
+import { getImageSrc } from '../../utils/getImageSrc';
 import styles from './ProductCard.module.css';
 
 interface ProductCardProps {

@@ -1,5 +1,5 @@
-import { ProductSearchHit } from '../types';
-import { formatPrice } from '../utils/formatPrice';
+import { ProductSearchHit } from '../../types';
+import { formatPrice } from '../../utils/formatPrice';
 import styles from './SearchDialog.module.css';
 
 interface SearchDialogProps {

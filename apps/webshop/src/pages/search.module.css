@@ -19,24 +19,6 @@
   font-size: 16px;
 }
 
-.category {
-  margin-bottom: 40px;
-}
-
-.categoryTitle {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 16px;
-  padding-bottom: 8px;
-  border-bottom: 2px solid #e63329;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 16px;
-}
-
 @media (max-width: 640px) {
   .inner {
     padding: 24px 16px;

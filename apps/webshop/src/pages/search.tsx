@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { SEARCH_PRODUCTS_QUERY } from '../graphql/queries';
 import { groupBy } from '../utils/groupBy';
 import { fetchGraphQL } from '../utils/fetchGraphQL';
-import ProductCard from '../components/ProductCard';
+import { ProductsGrid } from '../components/ProductsGrid/ProductsGrid';
 import { Product, SearchProductsResult } from '../types';
 import styles from './search.module.css';
 
@@ -64,14 +64,12 @@ export default function SearchPage() {
         )}
 
         {Object.keys(grouped).map(category => (
-          <section key={category} className={styles.category}>
-            <h2 className={styles.categoryTitle}>{category}</h2>
-            <div className={styles.grid}>
-              {grouped[category].map(product => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-          </section>
+          <ProductsGrid
+            key={category}
+            products={grouped[category]}
+            title={category}
+            embedded
+          />
         ))}
       </div>
     </div>

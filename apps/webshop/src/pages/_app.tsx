@@ -2,7 +2,7 @@ import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { CartContext } from '../contexts/CartContext';
 import { useCart } from '../hooks/useCart';
-import { Header } from '../components/Header';
+import { Header } from '../components/Header/Header';
 import './styles.css';
 
 function CustomApp({ Component, pageProps }: AppProps) {

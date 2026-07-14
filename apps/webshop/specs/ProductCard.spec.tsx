@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import ProductCard from '../src/components/ProductCard';
+import ProductCard from '../src/components/ProductCard/ProductCard';
 import { formatPrice } from '../src/utils/formatPrice';
 
 const mockProduct = {

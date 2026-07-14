@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { GetServerSideProps } from 'next';
-import ProductCard from '../components/ProductCard';
+import { ProductsGrid } from '../components/ProductsGrid/ProductsGrid';
 import { GET_PRODUCT_QUERY } from '../graphql/queries';
 import { GetProductResult, Product, ProductCategory } from '../types';
 import { fetchGraphQL } from '../utils/fetchGraphQL';
@@ -61,16 +61,7 @@ export default function HomePage({ featured }: HomePageProps) {
         </div>
       </section>
 
-      <section className={styles.featured}>
-        <div className={styles.featuredHeader}>
-          <h2>Featured products</h2>
-        </div>
-        <div className={styles.grid}>
-          {featured.map(product => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-      </section>
+      <ProductsGrid products={featured} title="Featured products" />
 
       <section className={styles.categories}>
         <h2>Shop by category</h2>

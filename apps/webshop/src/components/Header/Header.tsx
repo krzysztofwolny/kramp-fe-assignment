@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { SEARCH_PRODUCTS_QUERY } from '../graphql/queries';
-import { ProductSearchHit, SearchProductsResult } from '../types';
-import { fetchGraphQL } from '../utils/fetchGraphQL';
-import { useCartContext } from '../hooks/useCartContext';
-import { SearchDialog } from './SearchDialog';
-import { CartIcon } from './cartIcon';
-import { useDebounce } from '../hooks/useDebounce';
+import { SEARCH_PRODUCTS_QUERY } from '../../graphql/queries';
+import { ProductSearchHit, SearchProductsResult } from '../../types';
+import { fetchGraphQL } from '../../utils/fetchGraphQL';
+import { useCartContext } from '../../hooks/useCartContext';
+import { SearchDialog } from '../SearchDialog/SearchDialog';
+import { CartIcon } from '../CartIcon/CartIcon';
+import { useDebounce } from '../../hooks/useDebounce';
 import styles from './Header.module.css';
 
 const SEARCH_LISTBOX_ID = 'header-search-listbox';

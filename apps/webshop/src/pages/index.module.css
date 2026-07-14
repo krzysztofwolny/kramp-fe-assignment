@@ -30,30 +30,6 @@
   opacity: 0.9;
 }
 
-.featured {
-  max-width: 1200px;
-  margin: 48px auto;
-  padding: 0 24px;
-}
-
-.featuredHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 24px;
-}
-
-.featuredHeader h2 {
-  font-size: 22px;
-  font-weight: 700;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 16px;
-}
-
 .categoryGrid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -85,7 +61,6 @@
     font-size: 24px;
   }
 
-  .featured,
   .categories {
     padding: 0 16px;
     margin-top: 32px;
