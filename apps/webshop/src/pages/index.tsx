@@ -1,6 +1,6 @@
 import { GetServerSideProps } from 'next';
 import ProductCard from '../components/ProductCard';
-import { GetProductResult, Product } from '../types';
+import { GetProductResult, Product, ProductCategory } from '../types';
 import { fetchGraphQL } from '../utils/fetchGraphQL';
 import styles from './index.module.css';
 
@@ -18,6 +18,13 @@ const GET_PRODUCT_QUERY = `
     }
   }
 `;
+
+const CATEGORIES: ProductCategory[] = [
+  'Tools',
+  'Fasteners',
+  'Safety Equipment',
+  'Power Tools',
+];
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const FEATURED_IDS = ['1', '4', '11', '17'];
@@ -74,8 +81,8 @@ export default function HomePage({ featured, timestamp }: HomePageProps) {
           </p>
         </div>
         <div className={styles.grid}>
-          {featured.map((product, index) => (
-            <ProductCard key={index} product={product} />
+          {featured.map(product => (
+            <ProductCard key={product.id} product={product} />
           ))}
         </div>
       </section>
@@ -83,8 +90,12 @@ export default function HomePage({ featured, timestamp }: HomePageProps) {
       <section className={styles.categories}>
         <h2>Shop by category</h2>
         <div className={styles.categoryGrid}>
-          {['Tools', 'Fasteners', 'Safety Equipment', 'Power Tools'].map((cat, index) => (
-            <a key={index} href={`/search?q=${cat}`} className={styles.categoryCard}>
+          {CATEGORIES.map(cat => (
+            <a
+              key={cat}
+              href={`/search?q=${encodeURIComponent(cat)}`}
+              className={styles.categoryCard}
+            >
               {cat}
             </a>
           ))}
