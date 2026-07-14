@@ -24,7 +24,6 @@ const SEARCH_QUERY = `
 export default function SearchPage() {
   const router = useRouter();
   const [results, setResults] = useState<Product[]>([]);
-  const [filteredResults, setFilteredResults] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -49,11 +48,7 @@ export default function SearchPage() {
       });
   }, [router.isReady, router.query.q]);
 
-  useEffect(() => {
-    setFilteredResults(results);
-  }, [results]);
-
-  const grouped = groupBy(filteredResults, 'category');
+  const grouped = groupBy(results, 'category');
 
   return (
     <div className={styles.page}>
@@ -66,7 +61,7 @@ export default function SearchPage() {
 
         {error && <p className={styles.empty}>{error}</p>}
 
-        {!isLoading && !error && !filteredResults.length && (
+        {!isLoading && !error && !results.length && (
           <p className={styles.empty}>No products found.</p>
         )}
 
@@ -74,8 +69,8 @@ export default function SearchPage() {
           <section key={category} className={styles.category}>
             <h2 className={styles.categoryTitle}>{category}</h2>
             <div className={styles.grid}>
-              {grouped[category].map((product, index) => (
-                <ProductCard key={index} product={product} />
+              {grouped[category].map(product => (
+                <ProductCard key={product.id} product={product} />
               ))}
             </div>
           </section>
