@@ -23,16 +23,23 @@ const SEARCH_QUERY = `
   }
 `;
 
+const SEARCH_LISTBOX_ID = 'header-search-listbox';
+
 export function Header() {
   const router = useRouter();
   const { cart } = useContext(CartContext)!;
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<ProductSearchHit[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(-1);
   const debouncedQuery = useDebounce(query, 300);
 
   useEffect(() => {
     setIsOpen(results.length > 0);
+  }, [results]);
+
+  useEffect(() => {
+    setActiveIndex(-1);
   }, [results]);
 
   useEffect(() => {
@@ -53,14 +60,54 @@ export function Header() {
   useEffect(() => {
     const handleOutsideClick = () => {
       setIsOpen(false);
+      setActiveIndex(-1);
     };
+
     document.addEventListener('click', handleOutsideClick);
+    return () => document.removeEventListener('click', handleOutsideClick);
   }, []);
 
+  const selectResult = (id: string) => {
+    router.push(`/product/${id}`);
+    setIsOpen(false);
+    setQuery('');
+    setActiveIndex(-1);
+  };
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && query.trim()) {
-      router.push('/search?q=' + encodeURIComponent(query));
+    if (e.key === 'ArrowDown') {
+      if (!results.length) return;
+      e.preventDefault();
+      setIsOpen(true);
+      setActiveIndex(prev => Math.min(prev + 1, results.length - 1));
+      return;
+    }
+
+    if (e.key === 'ArrowUp') {
+      if (!results.length) return;
+      e.preventDefault();
+      setActiveIndex(prev => Math.max(prev - 1, 0));
+      return;
+    }
+
+    if (e.key === 'Escape') {
       setIsOpen(false);
+      setActiveIndex(-1);
+      return;
+    }
+
+    if (e.key === 'Enter') {
+      if (activeIndex >= 0 && results[activeIndex]) {
+        e.preventDefault();
+        selectResult(results[activeIndex].id);
+        return;
+      }
+
+      if (query.trim()) {
+        router.push('/search?q=' + encodeURIComponent(query));
+        setIsOpen(false);
+        setActiveIndex(-1);
+      }
     }
   };
 
@@ -77,7 +124,7 @@ export function Header() {
           Kramp
         </Link>
 
-        <nav className={styles.nav}>
+        <nav className={styles.nav} aria-label="Main navigation">
           <Link
             href="/"
             className={isActivePage('/') && router.pathname === '/' ? styles.activeLink : styles.navLink}
@@ -98,15 +145,25 @@ export function Header() {
           </Link>
         </nav>
 
-        <div className={styles.searchWrapper}>
+        <div
+          className={styles.searchWrapper}
+          onClick={e => e.stopPropagation()}
+        >
           <input
-            type="text"
+            type="search"
             value={query}
             placeholder="Search products..."
             className={styles.searchInput}
+            role="combobox"
+            aria-label="Search products"
+            aria-expanded={isOpen}
+            aria-controls={SEARCH_LISTBOX_ID}
+            aria-activedescendant={
+              activeIndex >= 0 ? `search-option-${activeIndex}` : undefined
+            }
+            aria-autocomplete="list"
             onChange={e => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
-            onClick={e => e.stopPropagation()}
           />
           {truncatedQuery && query.length > 30 && (
             <span className={styles.truncatedHint}>Searching: {truncatedQuery}…</span>
@@ -114,11 +171,9 @@ export function Header() {
           {isOpen && (
             <SearchDialog
               results={results}
-              onSelect={(id: string) => {
-                router.push(`/product/${id}`);
-                setIsOpen(false);
-                setQuery('');
-              }}
+              listboxId={SEARCH_LISTBOX_ID}
+              activeIndex={activeIndex}
+              onSelect={selectResult}
             />
           )}
         </div>
