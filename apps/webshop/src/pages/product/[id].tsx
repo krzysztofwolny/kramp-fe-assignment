@@ -90,7 +90,7 @@ export default function ProductPage() {
         <div className={styles.imageWrapper}>
           <img
             src={product.imageUrl}
-            alt=""
+            alt={product.name}
             className={styles.image}
           />
         </div>

@@ -15,7 +15,7 @@ export default function ProductCard({ product }: ProductCardProps) {
     >
       <img
         src={product.imageUrl}
-        alt=""
+        alt={product.name}
         width="300"
         height="200"
         className={styles.image}
