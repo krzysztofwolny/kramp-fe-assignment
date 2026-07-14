@@ -1,25 +1,11 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { GET_PRODUCT_QUERY } from '../../graphql/queries';
 import { GetProductResult, Product } from '../../types';
 import { fetchGraphQL } from '../../utils/fetchGraphQL';
 import { formatPrice } from '../../utils/formatPrice';
 import { useCartContext } from '../../hooks/useCartContext';
 import styles from './[id].module.css';
-
-const GET_PRODUCT_QUERY = `
-  query GetProduct($id: ID!) {
-    product(id: $id) {
-      id
-      name
-      description
-      price
-      category
-      imageUrl
-      stock
-      createdAt
-    }
-  }
-`;
 
 export default function ProductPage() {
   const router = useRouter();

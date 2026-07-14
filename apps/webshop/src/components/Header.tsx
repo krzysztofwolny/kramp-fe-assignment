@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { SEARCH_PRODUCTS_QUERY } from '../graphql/queries';
 import { ProductSearchHit, SearchProductsResult } from '../types';
 import { fetchGraphQL } from '../utils/fetchGraphQL';
 import { useCartContext } from '../hooks/useCartContext';
@@ -8,20 +9,6 @@ import { SearchDialog } from './SearchDialog';
 import { CartIcon } from './cartIcon';
 import { useDebounce } from '../hooks/useDebounce';
 import styles from './Header.module.css';
-
-const SEARCH_QUERY = `
-  query Search($q: String!) {
-    searchProducts(query: $q) {
-      id
-      name
-      price
-      imageUrl
-      description
-      stock
-      createdAt
-    }
-  }
-`;
 
 const SEARCH_LISTBOX_ID = 'header-search-listbox';
 
@@ -48,7 +35,7 @@ export function Header() {
       return;
     }
 
-    fetchGraphQL<SearchProductsResult>(SEARCH_QUERY, { q: debouncedQuery })
+    fetchGraphQL<SearchProductsResult>(SEARCH_PRODUCTS_QUERY, { q: debouncedQuery })
       .then(data => {
         setResults(data.searchProducts.slice(0, 5));
       })
@@ -115,7 +102,7 @@ export function Header() {
     return router.pathname.indexOf(path) !== -1;
   };
 
-  const truncatedQuery = query.substr(0, 30);
+  const truncatedQuery = query.slice(0, 30);
 
   return (
     <header className={styles.header}>

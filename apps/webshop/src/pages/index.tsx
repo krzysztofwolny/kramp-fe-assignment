@@ -1,23 +1,9 @@
 import { GetServerSideProps } from 'next';
 import ProductCard from '../components/ProductCard';
+import { GET_PRODUCT_QUERY } from '../graphql/queries';
 import { GetProductResult, Product, ProductCategory } from '../types';
 import { fetchGraphQL } from '../utils/fetchGraphQL';
 import styles from './index.module.css';
-
-const GET_PRODUCT_QUERY = `
-  query GetProduct($id: ID!) {
-    product(id: $id) {
-      id
-      name
-      price
-      imageUrl
-      description
-      category
-      stock
-      createdAt
-    }
-  }
-`;
 
 const CATEGORIES: ProductCategory[] = [
   'Tools',

@@ -1,25 +1,11 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { SEARCH_PRODUCTS_QUERY } from '../graphql/queries';
 import { groupBy } from '../utils/groupBy';
 import { fetchGraphQL } from '../utils/fetchGraphQL';
 import ProductCard from '../components/ProductCard';
 import { Product, SearchProductsResult } from '../types';
 import styles from './search.module.css';
-
-const SEARCH_QUERY = `
-  query SearchProducts($q: String!) {
-    searchProducts(query: $q) {
-      id
-      name
-      price
-      imageUrl
-      category
-      description
-      stock
-      createdAt
-    }
-  }
-`;
 
 export default function SearchPage() {
   const router = useRouter();
@@ -35,7 +21,7 @@ export default function SearchPage() {
     setIsLoading(true);
     setError(null);
 
-    fetchGraphQL<SearchProductsResult>(SEARCH_QUERY, { q })
+    fetchGraphQL<SearchProductsResult>(SEARCH_PRODUCTS_QUERY, { q })
       .then(data => {
         setResults(data.searchProducts);
       })
