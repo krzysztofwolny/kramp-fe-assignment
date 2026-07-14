@@ -17,21 +17,33 @@ export default function SearchPage() {
     if (!router.isReady) return;
 
     const q = (router.query.q as string) || '';
+    const controller = new AbortController();
 
     setIsLoading(true);
     setError(null);
 
-    fetchGraphQL<SearchProductsResult>(SEARCH_PRODUCTS_QUERY, { q })
+    fetchGraphQL<SearchProductsResult>(
+      SEARCH_PRODUCTS_QUERY,
+      { q },
+      { signal: controller.signal }
+    )
       .then(data => {
         setResults(data.searchProducts);
       })
       .catch(err => {
+        if (err instanceof DOMException && err.name === 'AbortError') {
+          return;
+        }
         setError(err instanceof Error ? err.message : 'Failed to load products');
         setResults([]);
       })
       .finally(() => {
-        setIsLoading(false);
+        if (!controller.signal.aborted) {
+          setIsLoading(false);
+        }
       });
+
+    return () => controller.abort();
   }, [router.isReady, router.query.q]);
 
   const grouped = groupBy(results, 'category');

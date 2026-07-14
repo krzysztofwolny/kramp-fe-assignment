@@ -35,13 +35,24 @@ export function Header() {
       return;
     }
 
-    fetchGraphQL<SearchProductsResult>(SEARCH_PRODUCTS_QUERY, { q: debouncedQuery })
+    const controller = new AbortController();
+
+    fetchGraphQL<SearchProductsResult>(
+      SEARCH_PRODUCTS_QUERY,
+      { q: debouncedQuery },
+      { signal: controller.signal }
+    )
       .then(data => {
         setResults(data.searchProducts.slice(0, 5));
       })
-      .catch(() => {
+      .catch(error => {
+        if (error instanceof DOMException && error.name === 'AbortError') {
+          return;
+        }
         setResults([]);
       });
+
+    return () => controller.abort();
   }, [debouncedQuery]);
 
   useEffect(() => {

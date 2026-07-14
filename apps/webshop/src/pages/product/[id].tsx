@@ -20,16 +20,27 @@ export default function ProductPage() {
   useEffect(() => {
     if (!router.isReady || !productId) return;
 
+    const controller = new AbortController();
+
     setProduct(null);
     setError(null);
 
-    fetchGraphQL<GetProductResult>(GET_PRODUCT_QUERY, { id: productId })
+    fetchGraphQL<GetProductResult>(
+      GET_PRODUCT_QUERY,
+      { id: productId },
+      { signal: controller.signal }
+    )
       .then(data => {
         setProduct(data.product);
       })
       .catch(err => {
+        if (err instanceof DOMException && err.name === 'AbortError') {
+          return;
+        }
         setError(err instanceof Error ? err.message : 'Failed to load product');
       });
+
+    return () => controller.abort();
   }, [router.isReady, productId]);
 
   const handleAddToCart = () => {
