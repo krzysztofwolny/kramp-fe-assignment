@@ -29,25 +29,26 @@ export function Header() {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<ProductSearchHit[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+  const debouncedQuery = useDebounce(query, 300);
 
   useEffect(() => {
     setIsOpen(results.length > 0);
   }, [results]);
 
   useEffect(() => {
-    if (!query) {
+    if (!debouncedQuery) {
       setResults([]);
       return;
     }
 
-    fetchGraphQL<SearchProductsResult>(SEARCH_QUERY, { q: query })
+    fetchGraphQL<SearchProductsResult>(SEARCH_QUERY, { q: debouncedQuery })
       .then(data => {
         setResults(data.searchProducts.slice(0, 5));
       })
       .catch(() => {
         setResults([]);
       });
-  }, [query]);
+  }, [debouncedQuery]);
 
   useEffect(() => {
     const handleOutsideClick = () => {
