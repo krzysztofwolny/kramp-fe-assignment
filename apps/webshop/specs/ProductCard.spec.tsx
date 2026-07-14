@@ -1,15 +1,6 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import ProductCard from '../src/components/ProductCard';
-
-jest.mock('next/router', () => ({
-  useRouter: () => ({
-    push: jest.fn(),
-    pathname: '/',
-    query: {},
-    asPath: '/',
-  }),
-}));
 
 const mockProduct = {
   id: '1',

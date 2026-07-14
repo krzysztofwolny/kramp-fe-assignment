@@ -4,7 +4,6 @@ import styles from './ProductCard.module.css';
 
 interface ProductCardProps {
   product: Product;
-  onAddToCart?: () => void;
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
