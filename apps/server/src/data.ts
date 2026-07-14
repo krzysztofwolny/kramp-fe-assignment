@@ -34,5 +34,24 @@ export function getProductById(id: string): Product | undefined {
 
 export function searchProducts(query: string): Product[] {
   const all = getAllProducts();
-  return all.filter(p => p.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+  const normalizedQuery = query.trim().toLowerCase();
+
+  if (!normalizedQuery) {
+    return all;
+  }
+
+  const categories = [...new Set(all.map(p => p.category))];
+  const exactCategory = categories.find(
+    category => category.toLowerCase() === normalizedQuery
+  );
+
+  if (exactCategory) {
+    return all.filter(p => p.category === exactCategory);
+  }
+
+  return all.filter(
+    p =>
+      p.name.toLowerCase().includes(normalizedQuery) ||
+      p.category.toLowerCase().includes(normalizedQuery)
+  );
 }
