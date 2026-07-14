@@ -11,6 +11,10 @@ describe('getStockStatus', () => {
     expect(getStockLabel(4)).toBeNull();
   });
 
+  it('returns out of stock label for zero stock', () => {
+    expect(getStockLabel(0)).toBe('Out of stock');
+  });
+
   it('caps quantity to available stock', () => {
     expect(capQuantity(5, 3)).toBe(3);
     expect(capQuantity(2, 3)).toBe(2);
