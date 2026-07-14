@@ -1,14 +1,15 @@
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
-import { CartContext } from '../_app';
+import { CartContext } from '../../contexts/CartContext';
+import { Product } from '../../types';
 import styles from './[id].module.css';
 
-var GRAPHQL_URL = 'http://localhost:4000/graphql';
+const GRAPHQL_URL = 'http://localhost:4000/graphql';
 
 export default function ProductPage() {
   const router = useRouter();
-  const { cart } = useContext(CartContext) as any;
-  const [product, setProduct] = useState<any>(null);
+  const { cart } = useContext(CartContext)!;
+  const [product, setProduct] = useState<Product | null>(null);
   useEffect(() => {
     if (!router.query.id) return;
 

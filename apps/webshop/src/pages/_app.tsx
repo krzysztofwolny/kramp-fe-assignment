@@ -1,12 +1,10 @@
 import 'isomorphic-fetch';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-import { createContext } from 'react';
+import { CartContext } from '../contexts/CartContext';
 import { useCart } from '../hooks/useCart';
 import { Header } from '../components/Header';
 import './styles.css';
-
-export const CartContext = createContext<any>(null);
 
 function CustomApp({ Component, pageProps }: AppProps) {
   const cart = useCart();

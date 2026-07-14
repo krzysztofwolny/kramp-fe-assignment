@@ -1,5 +1,6 @@
 import { GetServerSideProps } from 'next';
 import ProductCard from '../components/ProductCard';
+import { Product } from '../types';
 import styles from './index.module.css';
 
 export const getServerSideProps: GetServerSideProps = async () => {
@@ -45,7 +46,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
 };
 
 interface HomePageProps {
-  featured: any[];
+  featured: Product[];
   timestamp: number;
 }
 

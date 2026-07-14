@@ -2,12 +2,13 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { groupBy } from '../utils/groupBy';
 import ProductCard from '../components/ProductCard';
+import { Product } from '../types';
 import styles from './search.module.css';
 
 export default function SearchPage() {
   const router = useRouter();
-  const [results, setResults] = useState<any[]>([]);
-  const [filteredResults, setFilteredResults] = useState<any[]>([]);
+  const [results, setResults] = useState<Product[]>([]);
+  const [filteredResults, setFilteredResults] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {

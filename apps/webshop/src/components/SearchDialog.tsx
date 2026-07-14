@@ -1,7 +1,8 @@
+import { ProductSearchHit } from '../types';
 import styles from './SearchDialog.module.css';
 
 interface SearchDialogProps {
-  results: any[];
+  results: ProductSearchHit[];
   onSelect: (id: string) => void;
 }
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { CartItem } from '../types';
+import { CartItem, UseCartReturn } from '../types';
 
 const stored: CartItem[] =
   typeof window !== 'undefined'
@@ -22,7 +22,7 @@ export function useCart() {
     }
   });
 
-  const addToCart = (item: Omit<CartItem, 'productId'> & { productId: string }) => {
+  const addToCart = (item: CartItem) => {
     const id = uuidv4();
     console.log('adding to cart, entry id:', id);
 

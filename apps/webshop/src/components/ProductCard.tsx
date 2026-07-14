@@ -1,8 +1,13 @@
-import React from 'react';
 import { useRouter } from 'next/router';
+import { Product } from '../types';
 import styles from './ProductCard.module.css';
 
-const ProductCard: React.FC<any> = ({ product, onAddToCart }) => {
+interface ProductCardProps {
+  product: Product;
+  onAddToCart?: () => void;
+}
+
+export default function ProductCard({ product }: ProductCardProps) {
   const router = useRouter();
 
   return (
@@ -29,10 +34,4 @@ const ProductCard: React.FC<any> = ({ product, onAddToCart }) => {
       </div>
     </div>
   );
-};
-
-(ProductCard as any).defaultProps = {
-  onAddToCart: () => {},
-};
-
-export default ProductCard;
+}
