@@ -42,6 +42,13 @@
 .itemName {
   flex: 1;
   font-size: 15px;
+  color: #1a1a1a;
+  text-decoration: none;
+}
+
+.itemName:hover {
+  color: #e63329;
+  text-decoration: underline;
 }
 
 .itemQty {

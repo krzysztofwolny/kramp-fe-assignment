@@ -42,7 +42,12 @@ export default function CheckoutPage() {
             <div className={styles.items}>
               {items.map(item => (
                 <div key={item.productId} className={styles.item}>
-                  <span className={styles.itemName}>{item.name}</span>
+                  <Link
+                    href={`/product/${item.productId}`}
+                    className={styles.itemName}
+                  >
+                    {item.name}
+                  </Link>
                   <span className={styles.itemQty}>×{item.quantity}</span>
                   <span className={styles.itemPrice}>
                     {formatPrice(item.price * item.quantity)}
