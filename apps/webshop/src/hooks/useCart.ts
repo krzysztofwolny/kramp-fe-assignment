@@ -51,5 +51,5 @@ export function useCart(): UseCartReturn {
 
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
-  return { cart, addToCart, removeFromCart, clearCart, totalItems, totalPrice };
+  return { cart, addToCart, removeFromCart, clearCart, totalItems, totalPrice, isReady };
 }

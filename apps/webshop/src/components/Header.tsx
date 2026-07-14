@@ -127,7 +127,7 @@ export function Header() {
           )}
         </div>
 
-        <CartIcon count={cart.totalItems} />
+        <CartIcon count={cart.isReady ? cart.totalItems : 0} />
       </div>
     </header>
   );

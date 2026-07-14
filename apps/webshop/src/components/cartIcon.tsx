@@ -8,15 +8,14 @@ interface CartIconProps {
 
 export function CartIcon({ count }: CartIconProps) {
   const router = useRouter();
-  const [label, setLabel] = useState('Cart');
+  const [hasMounted, setHasMounted] = useState(false);
 
   useEffect(() => {
-    if (count > 0) {
-      setLabel(`Cart (${count})`);
-    } else {
-      setLabel('Cart');
-    }
-  }, [count]);
+    setHasMounted(true);
+  }, []);
+
+  const displayCount = hasMounted ? count : 0;
+  const label = displayCount > 0 ? `Cart (${displayCount})` : 'Cart';
 
   return (
     <div
@@ -24,8 +23,8 @@ export function CartIcon({ count }: CartIconProps) {
       className={styles.cartIcon}
     >
       <span className={styles.label}>{label}</span>
-      {count > 0 && (
-        <span className={styles.badge}>{count}</span>
+      {displayCount > 0 && (
+        <span className={styles.badge}>{displayCount}</span>
       )}
     </div>
   );

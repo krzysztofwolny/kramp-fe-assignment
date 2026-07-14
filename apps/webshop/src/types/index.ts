@@ -31,6 +31,7 @@ export interface UseCartReturn {
   clearCart: () => void;
   totalItems: number;
   totalPrice: number;
+  isReady: boolean;
 }
 
 export interface CartContextValue {
