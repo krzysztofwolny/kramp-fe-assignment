@@ -1,15 +1,32 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { groupBy } from '../utils/groupBy';
+import { fetchGraphQL } from '../utils/fetchGraphQL';
 import ProductCard from '../components/ProductCard';
-import { Product } from '../types';
+import { Product, SearchProductsResult } from '../types';
 import styles from './search.module.css';
+
+const SEARCH_QUERY = `
+  query SearchProducts($q: String!) {
+    searchProducts(query: $q) {
+      id
+      name
+      price
+      imageUrl
+      category
+      description
+      stock
+      createdAt
+    }
+  }
+`;
 
 export default function SearchPage() {
   const router = useRouter();
   const [results, setResults] = useState<Product[]>([]);
   const [filteredResults, setFilteredResults] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!router.isReady) return;
@@ -17,35 +34,17 @@ export default function SearchPage() {
     const q = (router.query.q as string) || '';
 
     setIsLoading(true);
+    setError(null);
 
-    fetch('http://localhost:4000/graphql', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        query: `
-          query SearchProducts($q: String!) {
-            searchProducts(query: $q) {
-              id
-              name
-              price
-              imageUrl
-              category
-              description
-              stock
-              createdAt
-            }
-          }
-        `,
-        variables: { q },
-      }),
-    })
-      .then(res => res.json())
+    fetchGraphQL<SearchProductsResult>(SEARCH_QUERY, { q })
       .then(data => {
-        console.log('search results:', data);
-        setResults(data.data.searchProducts);
-        setIsLoading(false);
+        setResults(data.searchProducts);
       })
-      .catch(() => {
+      .catch(err => {
+        setError(err instanceof Error ? err.message : 'Failed to load products');
+        setResults([]);
+      })
+      .finally(() => {
         setIsLoading(false);
       });
   }, [router.isReady, router.query.q]);
@@ -65,7 +64,9 @@ export default function SearchPage() {
 
         {isLoading && <p>Loading...</p>}
 
-        {!isLoading && !filteredResults.length && (
+        {error && <p className={styles.empty}>{error}</p>}
+
+        {!isLoading && !error && !filteredResults.length && (
           <p className={styles.empty}>No products found.</p>
         )}
 

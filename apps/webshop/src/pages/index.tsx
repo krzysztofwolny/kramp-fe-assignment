@@ -1,40 +1,37 @@
 import { GetServerSideProps } from 'next';
 import ProductCard from '../components/ProductCard';
-import { Product } from '../types';
+import { GetProductResult, Product } from '../types';
+import { fetchGraphQL } from '../utils/fetchGraphQL';
 import styles from './index.module.css';
+
+const GET_PRODUCT_QUERY = `
+  query GetProduct($id: ID!) {
+    product(id: $id) {
+      id
+      name
+      price
+      imageUrl
+      description
+      category
+      stock
+      createdAt
+    }
+  }
+`;
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const FEATURED_IDS = ['1', '4', '11', '17'];
-  const featured = [];
+  const featured: Product[] = [];
 
   for (const id of FEATURED_IDS) {
     try {
-      const res = await fetch('http://localhost:4000/graphql', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          query: `
-            query GetProduct($id: ID!) {
-              product(id: $id) {
-                id
-                name
-                price
-                imageUrl
-                description
-                category
-                stock
-                createdAt
-              }
-            }
-          `,
-          variables: { id },
-        }),
-      });
-      const data = await res.json();
-      if (data.data?.product) {
-        featured.push(data.data.product);
+      const data = await fetchGraphQL<GetProductResult>(GET_PRODUCT_QUERY, { id });
+      if (data.product) {
+        featured.push(data.product);
       }
-    } catch (e) {}
+    } catch {
+      // Skip products that fail to load; page still renders remaining items
+    }
   }
 
   return {

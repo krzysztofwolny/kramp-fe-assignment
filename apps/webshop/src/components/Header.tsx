@@ -1,15 +1,27 @@
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import _ from 'lodash';
 import { CartContext } from '../contexts/CartContext';
-import { ProductSearchHit } from '../types';
+import { ProductSearchHit, SearchProductsResult } from '../types';
+import { fetchGraphQL } from '../utils/fetchGraphQL';
 import { SearchDialog } from './SearchDialog';
 import { CartIcon } from './cartIcon';
 import { useDebounce } from '../hooks/useDebounce';
 import styles from './Header.module.css';
 
-const GRAPHQL_URL = 'http://localhost:4000/graphql';
+const SEARCH_QUERY = `
+  query Search($q: String!) {
+    searchProducts(query: $q) {
+      id
+      name
+      price
+      imageUrl
+      description
+      stock
+      createdAt
+    }
+  }
+`;
 
 export function Header() {
   const router = useRouter();
@@ -28,29 +40,12 @@ export function Header() {
       return;
     }
 
-    fetch(GRAPHQL_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        query: `
-          query Search($q: String!) {
-            searchProducts(query: $q) {
-              id
-              name
-              price
-              imageUrl
-              description
-              stock
-              createdAt
-            }
-          }
-        `,
-        variables: { q: query },
-      }),
-    })
-      .then(res => res.json())
+    fetchGraphQL<SearchProductsResult>(SEARCH_QUERY, { q: query })
       .then(data => {
-        setResults(data.data.searchProducts.slice(0, 5));
+        setResults(data.searchProducts.slice(0, 5));
+      })
+      .catch(() => {
+        setResults([]);
       });
   }, [query]);
 

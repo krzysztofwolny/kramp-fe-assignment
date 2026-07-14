@@ -37,3 +37,11 @@ export interface UseCartReturn {
 export interface CartContextValue {
   cart: UseCartReturn;
 }
+
+export interface SearchProductsResult {
+  searchProducts: Product[];
+}
+
+export interface GetProductResult {
+  product: Product;
+}

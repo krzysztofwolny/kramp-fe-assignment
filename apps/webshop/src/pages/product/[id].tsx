@@ -1,15 +1,30 @@
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 import { CartContext } from '../../contexts/CartContext';
-import { Product } from '../../types';
+import { GetProductResult, Product } from '../../types';
+import { fetchGraphQL } from '../../utils/fetchGraphQL';
 import styles from './[id].module.css';
 
-const GRAPHQL_URL = 'http://localhost:4000/graphql';
+const GET_PRODUCT_QUERY = `
+  query GetProduct($id: ID!) {
+    product(id: $id) {
+      id
+      name
+      description
+      price
+      category
+      imageUrl
+      stock
+      createdAt
+    }
+  }
+`;
 
 export default function ProductPage() {
   const router = useRouter();
   const { cart } = useContext(CartContext)!;
   const [product, setProduct] = useState<Product | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const productId = Array.isArray(router.query.id)
     ? router.query.id[0]
@@ -19,32 +34,14 @@ export default function ProductPage() {
     if (!router.isReady || !productId) return;
 
     setProduct(null);
+    setError(null);
 
-    fetch(GRAPHQL_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        query: `
-          query GetProduct($id: ID!) {
-            product(id: $id) {
-              id
-              name
-              description
-              price
-              category
-              imageUrl
-              stock
-              createdAt
-            }
-          }
-        `,
-        variables: { id: productId },
-      }),
-    })
-      .then(res => res.json())
+    fetchGraphQL<GetProductResult>(GET_PRODUCT_QUERY, { id: productId })
       .then(data => {
-        console.log('product loaded:', data);
-        setProduct(data.data.product);
+        setProduct(data.product);
+      })
+      .catch(err => {
+        setError(err instanceof Error ? err.message : 'Failed to load product');
       });
   }, [router.isReady, productId]);
 
@@ -71,6 +68,14 @@ export default function ProductPage() {
     });
   };
 
+  if (error) {
+    return (
+      <div className={styles.page}>
+        <p>{error}</p>
+      </div>
+    );
+  }
+
   if (!product) {
     return (
       <div className={styles.page}>
@@ -84,20 +89,20 @@ export default function ProductPage() {
       <div className={styles.inner}>
         <div className={styles.imageWrapper}>
           <img
-            src={product!.imageUrl}
+            src={product.imageUrl}
             alt=""
             className={styles.image}
           />
         </div>
         <div className={styles.details}>
-          <p className={styles.category}>{product!.category}</p>
-          <h1 className={styles.name}>{product!.name}</h1>
-          <p className={styles.price}>€{product!.price.toFixed(2)}</p>
-          <p className={styles.description}>{product!.description}</p>
+          <p className={styles.category}>{product.category}</p>
+          <h1 className={styles.name}>{product.name}</h1>
+          <p className={styles.price}>€{product.price.toFixed(2)}</p>
+          <p className={styles.description}>{product.description}</p>
           <p className={styles.meta}>
-            Listed: {new Date(product!.createdAt).toLocaleDateString()}
+            Listed: {new Date(product.createdAt).toLocaleDateString()}
             {' · '}
-            {product!.stock} in stock
+            {product.stock} in stock
           </p>
           <div className={styles.addToCart} onClick={handleAddToCart}>
             Add to cart
