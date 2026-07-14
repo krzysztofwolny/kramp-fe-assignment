@@ -8,6 +8,7 @@ import { formatPrice } from '../../utils/formatPrice';
 import { getImageSrc } from '../../utils/getImageSrc';
 import { useCartContext } from '../../hooks/useCartContext';
 import { FrequentlyBoughtTogether } from '../../components/FrequentlyBoughtTogether/FrequentlyBoughtTogether';
+import { getStockLabel, isOutOfStock } from '../../utils/getStockStatus';
 import styles from './[id].module.css';
 
 export default function ProductPage() {
@@ -46,17 +47,6 @@ export default function ProductPage() {
     return () => controller.abort();
   }, [router.isReady, productId]);
 
-  const handleAddToCart = () => {
-    if (!product) return;
-
-    cart.addToCart({
-      productId: product.id,
-      name: product.name,
-      price: product.price,
-      quantity: 1,
-    });
-  };
-
   if (error) {
     return (
       <div className={styles.page}>
@@ -72,6 +62,29 @@ export default function ProductPage() {
       </div>
     );
   }
+
+  const quantityInCart =
+    cart.items.find(item => item.productId === product.id)?.quantity ?? 0;
+  const outOfStock = isOutOfStock(product.stock);
+  const canAddMore = !outOfStock && quantityInCart < product.stock;
+  const lowStockLabel = getStockLabel(product.stock);
+  const addToCartLabel = outOfStock
+    ? 'Out of stock'
+    : canAddMore
+      ? 'Add to cart'
+      : 'Maximum quantity in cart';
+
+  const handleAddToCart = () => {
+    if (!canAddMore) return;
+
+    cart.addToCart({
+      productId: product.id,
+      name: product.name,
+      price: product.price,
+      quantity: 1,
+      stock: product.stock,
+    });
+  };
 
   return (
     <div className={styles.page}>
@@ -91,17 +104,27 @@ export default function ProductPage() {
           <h1 className={styles.name}>{product.name}</h1>
           <p className={styles.price}>{formatPrice(product.price)}</p>
           <p className={styles.description}>{product.description}</p>
-          <p className={styles.meta}>
-            Listed: {new Date(product.createdAt).toLocaleDateString()}
-            {' · '}
-            {product.stock} in stock
-          </p>
+          {outOfStock ? (
+            <p className={styles.outOfStock}>Out of stock</p>
+          ) : (
+            <>
+              <p className={styles.meta}>
+                Listed: {new Date(product.createdAt).toLocaleDateString()}
+                {' · '}
+                {product.stock} in stock
+              </p>
+              {lowStockLabel && (
+                <p className={styles.lowStock}>{lowStockLabel}</p>
+              )}
+            </>
+          )}
           <button
             type="button"
             className={styles.addToCart}
             onClick={handleAddToCart}
+            disabled={!canAddMore}
           >
-            Add to cart
+            {addToCartLabel}
           </button>
         </div>
       </div>

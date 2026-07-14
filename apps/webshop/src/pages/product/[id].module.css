@@ -65,6 +65,23 @@
   margin: 0;
 }
 
+.outOfStock {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.lowStock {
+  font-size: 14px;
+  font-weight: 600;
+  color: #856404;
+  background: #fff3cd;
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin: 0;
+}
+
 .addToCart {
   display: block;
   width: 100%;
@@ -81,8 +98,13 @@
   font-family: inherit;
 }
 
-.addToCart:hover {
+.addToCart:hover:not(:disabled) {
   background: #c42820;
+}
+
+.addToCart:disabled {
+  background: #ccc;
+  cursor: not-allowed;
 }
 
 @media (min-width: 768px) {

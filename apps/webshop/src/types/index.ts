@@ -14,6 +14,7 @@ export interface CartItem {
   name: string;
   price: number;
   quantity: number;
+  stock?: number;
 }
 
 /** Subset of product fields returned by the header quick-search query. */

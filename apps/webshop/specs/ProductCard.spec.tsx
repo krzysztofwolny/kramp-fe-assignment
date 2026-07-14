@@ -29,4 +29,18 @@ describe('ProductCard', () => {
     const { getByTestId } = render(<ProductCard product={mockProduct} />);
     expect(getByTestId('product-card').textContent).toContain('Heavy Duty Hammer');
   });
+
+  it('shows out of stock label when stock is zero', () => {
+    const { getByTestId } = render(
+      <ProductCard product={{ ...mockProduct, stock: 0 }} />
+    );
+    expect(getByTestId('product-stock-label').textContent).toBe('Out of stock');
+  });
+
+  it('shows low stock label when stock is three or less', () => {
+    const { getByTestId } = render(
+      <ProductCard product={{ ...mockProduct, stock: 2 }} />
+    );
+    expect(getByTestId('product-stock-label').textContent).toBe('Only 2 left');
+  });
 });

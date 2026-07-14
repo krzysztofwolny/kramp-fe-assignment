@@ -8,6 +8,10 @@
   height: 100%;
 }
 
+.outOfStock {
+  opacity: 0.85;
+}
+
 .imageWrapper {
   position: relative;
   width: 100%;
@@ -16,6 +20,32 @@
 
 .image {
   object-fit: cover;
+}
+
+.outOfStock .image {
+  filter: grayscale(100%);
+}
+
+.stockBadge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.stockBadgeOut {
+  background: #1a1a1a;
+  color: #fff;
+}
+
+.stockBadgeLow {
+  background: #fff3cd;
+  color: #856404;
 }
 
 .body {
@@ -55,4 +85,12 @@
 
 .button:hover {
   background: #333;
+}
+
+.buttonMuted {
+  background: #999;
+}
+
+.buttonMuted:hover {
+  background: #777;
 }
