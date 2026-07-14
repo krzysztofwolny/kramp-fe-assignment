@@ -10,8 +10,15 @@ export default function ProductPage() {
   const router = useRouter();
   const { cart } = useContext(CartContext)!;
   const [product, setProduct] = useState<Product | null>(null);
+
+  const productId = Array.isArray(router.query.id)
+    ? router.query.id[0]
+    : router.query.id;
+
   useEffect(() => {
-    if (!router.query.id) return;
+    if (!router.isReady || !productId) return;
+
+    setProduct(null);
 
     fetch(GRAPHQL_URL, {
       method: 'POST',
@@ -31,7 +38,7 @@ export default function ProductPage() {
             }
           }
         `,
-        variables: { id: router.query.id },
+        variables: { id: productId },
       }),
     })
       .then(res => res.json())
@@ -39,7 +46,7 @@ export default function ProductPage() {
         console.log('product loaded:', data);
         setProduct(data.data.product);
       });
-  }, [cart]);
+  }, [router.isReady, productId]);
 
   const handleAddToCart = () => {
     if (!product) return;
