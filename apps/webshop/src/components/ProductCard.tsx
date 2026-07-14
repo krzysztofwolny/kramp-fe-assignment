@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { Product } from '../types';
 import { formatPrice } from '../utils/formatPrice';
@@ -13,12 +14,14 @@ export default function ProductCard({ product }: ProductCardProps) {
       className={styles.card}
       data-testid="product-card"
     >
-      <img
+      <Image
         src={product.imageUrl}
         alt={product.name}
-        width="300"
-        height="200"
+        width={300}
+        height={200}
         className={styles.image}
+        loading="lazy"
+        sizes="(max-width: 1200px) 25vw, 300px"
       />
       <div className={styles.body}>
         <h3 className={styles.name}>{product.name}</h3>

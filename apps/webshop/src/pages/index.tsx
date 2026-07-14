@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { GetServerSideProps } from 'next';
 import ProductCard from '../components/ProductCard';
 import { GET_PRODUCT_QUERY } from '../graphql/queries';
@@ -31,24 +32,24 @@ export const getServerSideProps: GetServerSideProps = async () => {
   return {
     props: {
       featured,
-      timestamp: Date.now(),
     },
   };
 };
 
 interface HomePageProps {
   featured: Product[];
-  timestamp: number;
 }
 
-export default function HomePage({ featured, timestamp }: HomePageProps) {
+export default function HomePage({ featured }: HomePageProps) {
   return (
     <div>
       <section className={styles.hero}>
-        <img
+        <Image
           src="https://placehold.co/1200x800/e63329/ffffff?text=Kramp+Webshop"
           alt="Kramp — Your industrial supply partner"
-          loading="lazy"
+          fill
+          priority
+          sizes="100vw"
           className={styles.heroImage}
         />
         <div className={styles.heroContent}>
@@ -62,9 +63,6 @@ export default function HomePage({ featured, timestamp }: HomePageProps) {
       <section className={styles.featured}>
         <div className={styles.featuredHeader}>
           <h2>Featured products</h2>
-          <p className={styles.timestamp}>
-            Last updated: {new Date(timestamp).toLocaleTimeString()}
-          </p>
         </div>
         <div className={styles.grid}>
           {featured.map(product => (

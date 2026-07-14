@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { GET_PRODUCT_QUERY } from '../../graphql/queries';
@@ -74,9 +75,12 @@ export default function ProductPage() {
     <div className={styles.page}>
       <div className={styles.inner}>
         <div className={styles.imageWrapper}>
-          <img
+          <Image
             src={product.imageUrl}
             alt={product.name}
+            fill
+            priority
+            sizes="(max-width: 1200px) 100vw, 600px"
             className={styles.image}
           />
         </div>

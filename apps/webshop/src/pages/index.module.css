@@ -1,6 +1,7 @@
 .hero {
   position: relative;
   overflow: hidden;
+  height: 400px;
 }
 
 .heroImage {
@@ -48,11 +49,6 @@
 .featuredHeader h2 {
   font-size: 22px;
   font-weight: 700;
-}
-
-.timestamp {
-  font-size: 12px;
-  color: #999;
 }
 
 .grid {
