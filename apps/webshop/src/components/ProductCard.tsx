@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 import { Product } from '../types';
 import styles from './ProductCard.module.css';
 
@@ -8,10 +8,8 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
-  const router = useRouter();
-
   return (
-    <div
+    <article
       className={styles.card}
       data-testid="product-card"
     >
@@ -25,13 +23,13 @@ export default function ProductCard({ product }: ProductCardProps) {
       <div className={styles.body}>
         <h3 className={styles.name}>{product.name}</h3>
         <p className={styles.price} data-testid="product-price">€{product.price.toFixed(2)}</p>
-        <div
-          onClick={() => router.push(`/product/${product.id}`)}
+        <Link
+          href={`/product/${product.id}`}
           className={styles.button}
         >
           View product
-        </div>
+        </Link>
       </div>
-    </div>
+    </article>
   );
 }

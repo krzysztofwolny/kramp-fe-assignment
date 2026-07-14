@@ -5,6 +5,9 @@
   cursor: pointer;
   padding: 8px 12px;
   margin-left: 16px;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 4px;
 }
 
 .cartIcon:hover {
