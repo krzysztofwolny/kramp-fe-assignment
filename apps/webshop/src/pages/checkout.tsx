@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react';
 import Link from 'next/link';
 import { CartContext } from '../contexts/CartContext';
+import { calculateOrderSummary } from '../utils/calculateOrderSummary';
 import styles from './checkout.module.css';
 
 export default function CheckoutPage() {
@@ -9,16 +10,16 @@ export default function CheckoutPage() {
 
   const handlePlaceOrder = () => {
     const items = cart.cart || [];
+    const summary = calculateOrderSummary(items);
 
-    const subtotals = items.map(item => item.price * item.quantity);
-    const total = subtotals.reduce((a, b) => a + b, 0);
-    const tax = subtotals.reduce((a, b) => a + b * 0.21, 0);
-    const shipping = items.reduce(
-      (acc, item) => acc + (item.quantity > 5 ? 0 : 4.95),
-      0
+    console.log(
+      'order total:',
+      summary.subtotal,
+      '| VAT:',
+      summary.tax.toFixed(2),
+      '| shipping:',
+      summary.shipping
     );
-
-    console.log('order total:', total, '| VAT:', tax.toFixed(2), '| shipping:', shipping);
 
     cart.clearCart();
     setConfirmed(true);
@@ -35,6 +36,7 @@ export default function CheckoutPage() {
   }
 
   const items = cart.cart || [];
+  const summary = calculateOrderSummary(items);
 
   return (
     <div className={styles.page}>
@@ -69,13 +71,21 @@ export default function CheckoutPage() {
             </div>
 
             <div className={styles.summary}>
-              <div className={styles.total}>
+              <div className={styles.summaryRow}>
+                <span>Subtotal</span>
+                <span>€{summary.subtotal.toFixed(2)}</span>
+              </div>
+              <div className={styles.summaryRow}>
+                <span>VAT (21%)</span>
+                <span>€{summary.tax.toFixed(2)}</span>
+              </div>
+              <div className={styles.summaryRow}>
+                <span>Shipping</span>
+                <span>€{summary.shipping.toFixed(2)}</span>
+              </div>
+              <div className={`${styles.summaryRow} ${styles.total}`}>
                 <span>Total</span>
-                <strong>
-                  €{items
-                    .reduce((sum, item) => sum + item.price * item.quantity, 0)
-                    .toFixed(2)}
-                </strong>
+                <strong>€{summary.total.toFixed(2)}</strong>
               </div>
             </div>
 
