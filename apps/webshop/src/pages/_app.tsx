@@ -15,8 +15,11 @@ function CustomApp({ Component, pageProps }: AppProps) {
         <title>Kramp Webshop</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
       <Header />
-      <main className="app">
+      <main id="main-content" className="app">
         <Component {...pageProps} />
       </main>
     </CartContext.Provider>
