@@ -5,6 +5,7 @@ import { GET_PRODUCT_QUERY } from '../../graphql/queries';
 import { GetProductResult, Product } from '../../types';
 import { fetchGraphQL } from '../../utils/fetchGraphQL';
 import { formatPrice } from '../../utils/formatPrice';
+import { getImageSrc } from '../../utils/getImageSrc';
 import { useCartContext } from '../../hooks/useCartContext';
 import styles from './[id].module.css';
 
@@ -76,7 +77,7 @@ export default function ProductPage() {
       <div className={styles.inner}>
         <div className={styles.imageWrapper}>
           <Image
-            src={product.imageUrl}
+            src={getImageSrc(product.imageUrl)}
             alt={product.name}
             fill
             priority

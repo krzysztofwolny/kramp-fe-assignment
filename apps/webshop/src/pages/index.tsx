@@ -4,6 +4,7 @@ import ProductCard from '../components/ProductCard';
 import { GET_PRODUCT_QUERY } from '../graphql/queries';
 import { GetProductResult, Product, ProductCategory } from '../types';
 import { fetchGraphQL } from '../utils/fetchGraphQL';
+import { getImageSrc } from '../utils/getImageSrc';
 import styles from './index.module.css';
 
 const CATEGORIES: ProductCategory[] = [
@@ -45,7 +46,7 @@ export default function HomePage({ featured }: HomePageProps) {
     <div>
       <section className={styles.hero}>
         <Image
-          src="https://placehold.co/1200x800/e63329/ffffff?text=Kramp+Webshop"
+          src={getImageSrc('https://placehold.co/1200x800/e63329/ffffff?text=Kramp+Webshop')}
           alt="Kramp — Your industrial supply partner"
           fill
           priority

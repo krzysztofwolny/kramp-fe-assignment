@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Product } from '../types';
 import { formatPrice } from '../utils/formatPrice';
+import { getImageSrc } from '../utils/getImageSrc';
 import styles from './ProductCard.module.css';
 
 interface ProductCardProps {
@@ -15,7 +16,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       data-testid="product-card"
     >
       <Image
-        src={product.imageUrl}
+        src={getImageSrc(product.imageUrl)}
         alt={product.name}
         width={300}
         height={200}
