@@ -21,18 +21,19 @@ const GET_PRODUCT_QUERY = `
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const FEATURED_IDS = ['1', '4', '11', '17'];
-  const featured: Product[] = [];
 
-  for (const id of FEATURED_IDS) {
-    try {
-      const data = await fetchGraphQL<GetProductResult>(GET_PRODUCT_QUERY, { id });
-      if (data.product) {
-        featured.push(data.product);
-      }
-    } catch {
-      // Skip products that fail to load; page still renders remaining items
-    }
-  }
+  const featured = (
+    await Promise.all(
+      FEATURED_IDS.map(async id => {
+        try {
+          const data = await fetchGraphQL<GetProductResult>(GET_PRODUCT_QUERY, { id });
+          return data.product ?? null;
+        } catch {
+          return null;
+        }
+      })
+    )
+  ).filter((product): product is Product => product !== null);
 
   return {
     props: {
