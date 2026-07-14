@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import ProductCard from '../src/components/ProductCard';
+import { formatPrice } from '../src/utils/formatPrice';
 
 const mockProduct = {
   id: '1',
@@ -21,7 +22,7 @@ describe('ProductCard', () => {
 
   it('displays the correct price', () => {
     const { getByTestId } = render(<ProductCard product={mockProduct} />);
-    expect(getByTestId('product-price').innerHTML).toBe('€18.99');
+    expect(getByTestId('product-price').innerHTML).toBe(formatPrice(mockProduct.price));
   });
 
   it('renders the product name', () => {

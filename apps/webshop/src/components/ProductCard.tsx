@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Product } from '../types';
+import { formatPrice } from '../utils/formatPrice';
 import styles from './ProductCard.module.css';
 
 interface ProductCardProps {
@@ -21,7 +22,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       />
       <div className={styles.body}>
         <h3 className={styles.name}>{product.name}</h3>
-        <p className={styles.price} data-testid="product-price">€{product.price.toFixed(2)}</p>
+        <p className={styles.price} data-testid="product-price">{formatPrice(product.price)}</p>
         <Link
           href={`/product/${product.id}`}
           className={styles.button}

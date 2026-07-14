@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useCartContext } from '../hooks/useCartContext';
 import { calculateOrderSummary } from '../utils/calculateOrderSummary';
+import { formatPrice } from '../utils/formatPrice';
 import styles from './checkout.module.css';
 
 export default function CheckoutPage() {
@@ -44,7 +45,7 @@ export default function CheckoutPage() {
                   <span className={styles.itemName}>{item.name}</span>
                   <span className={styles.itemQty}>×{item.quantity}</span>
                   <span className={styles.itemPrice}>
-                    €{(item.price * item.quantity).toFixed(2)}
+                    {formatPrice(item.price * item.quantity)}
                   </span>
                   <button
                     type="button"
@@ -61,19 +62,19 @@ export default function CheckoutPage() {
             <div className={styles.summary}>
               <div className={styles.summaryRow}>
                 <span>Subtotal</span>
-                <span>€{summary.subtotal.toFixed(2)}</span>
+                <span>{formatPrice(summary.subtotal)}</span>
               </div>
               <div className={styles.summaryRow}>
                 <span>VAT (21%)</span>
-                <span>€{summary.tax.toFixed(2)}</span>
+                <span>{formatPrice(summary.tax)}</span>
               </div>
               <div className={styles.summaryRow}>
                 <span>Shipping</span>
-                <span>€{summary.shipping.toFixed(2)}</span>
+                <span>{formatPrice(summary.shipping)}</span>
               </div>
               <div className={`${styles.summaryRow} ${styles.total}`}>
                 <span>Total</span>
-                <strong>€{summary.total.toFixed(2)}</strong>
+                <strong>{formatPrice(summary.total)}</strong>
               </div>
             </div>
 

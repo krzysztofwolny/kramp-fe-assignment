@@ -1,4 +1,5 @@
 import { ProductSearchHit } from '../types';
+import { formatPrice } from '../utils/formatPrice';
 import styles from './SearchDialog.module.css';
 
 interface SearchDialogProps {
@@ -35,7 +36,7 @@ export function SearchDialog({
             onClick={() => onSelect(result.id)}
           >
             <span className={styles.itemName}>{result.name}</span>
-            <span className={styles.itemPrice}>€{result.price.toFixed(2)}</span>
+            <span className={styles.itemPrice}>{formatPrice(result.price)}</span>
           </button>
         </li>
       ))}
