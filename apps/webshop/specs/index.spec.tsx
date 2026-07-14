@@ -13,7 +13,7 @@ jest.mock('next/router', () => ({
 describe('Index', () => {
   it('should render successfully', () => {
     const { default: HomePage } = require('../src/pages/index');
-    const { baseElement } = render(<HomePage featured={[]} timestamp={Date.now()} />);
+    const { baseElement } = render(<HomePage featured={[]} />);
     expect(baseElement).toBeTruthy();
   });
 });

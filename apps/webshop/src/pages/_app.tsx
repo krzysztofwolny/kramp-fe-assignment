@@ -1,4 +1,3 @@
-import 'isomorphic-fetch';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { CartContext } from '../contexts/CartContext';
