@@ -6,13 +6,14 @@
 
 .inner {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 48px;
+  grid-template-columns: 1fr;
+  gap: 24px;
   align-items: start;
 }
 
 .imageWrapper {
   position: relative;
+  width: 100%;
   border-radius: 4px;
   overflow: hidden;
   aspect-ratio: 3 / 2;
@@ -38,7 +39,7 @@
 }
 
 .name {
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 700;
   margin: 0;
   line-height: 1.2;
@@ -65,7 +66,8 @@
 }
 
 .addToCart {
-  display: inline-block;
+  display: block;
+  width: 100%;
   background: #e63329;
   color: white;
   padding: 14px 28px;
@@ -81,4 +83,26 @@
 
 .addToCart:hover {
   background: #c42820;
+}
+
+@media (min-width: 768px) {
+  .inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+  }
+
+  .name {
+    font-size: 28px;
+  }
+
+  .addToCart {
+    width: auto;
+    align-self: flex-start;
+  }
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: 24px 16px;
+  }
 }

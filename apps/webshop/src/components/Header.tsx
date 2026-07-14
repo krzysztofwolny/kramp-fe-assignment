@@ -176,7 +176,9 @@ export function Header() {
           )}
         </div>
 
-        <CartIcon count={cart.isReady ? cart.totalItems : 0} />
+        <div className={styles.cartWrapper}>
+          <CartIcon count={cart.isReady ? cart.totalItems : 0} />
+        </div>
       </div>
     </header>
   );

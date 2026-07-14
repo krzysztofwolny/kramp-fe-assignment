@@ -53,6 +53,10 @@
   margin-left: auto;
 }
 
+.cartWrapper {
+  flex-shrink: 0;
+}
+
 .searchInput {
   width: 100%;
   padding: 8px 12px;
@@ -71,4 +75,51 @@
   font-size: 11px;
   color: #999;
   margin-top: 2px;
+}
+
+@media (max-width: 768px) {
+  .inner {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas:
+      'logo nav cart'
+      'search search search';
+    gap: 12px 16px;
+    align-items: center;
+    padding: 12px 16px;
+  }
+
+  .logo {
+    grid-area: logo;
+  }
+
+  .nav {
+    grid-area: nav;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .searchWrapper {
+    grid-area: search;
+    flex: none;
+    max-width: none;
+    margin-left: 0;
+  }
+
+  .cartWrapper {
+    grid-area: cart;
+    justify-self: end;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    font-size: 18px;
+  }
+
+  .navLink,
+  .activeLink {
+    font-size: 13px;
+  }
 }

@@ -15,15 +15,16 @@ export default function ProductCard({ product }: ProductCardProps) {
       className={styles.card}
       data-testid="product-card"
     >
-      <Image
-        src={getImageSrc(product.imageUrl)}
-        alt={product.name}
-        width={300}
-        height={200}
-        className={styles.image}
-        loading="lazy"
-        sizes="(max-width: 1200px) 25vw, 300px"
-      />
+      <div className={styles.imageWrapper}>
+        <Image
+          src={getImageSrc(product.imageUrl)}
+          alt={product.name}
+          fill
+          className={styles.image}
+          loading="lazy"
+          sizes="(max-width: 640px) 100vw, (max-width: 1200px) 50vw, 300px"
+        />
+      </div>
       <div className={styles.body}>
         <h3 className={styles.name}>{product.name}</h3>
         <p className={styles.price} data-testid="product-price">{formatPrice(product.price)}</p>
